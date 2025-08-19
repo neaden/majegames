@@ -3,33 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>~*~ Welcome to MAJEGAMES.COM ~*~</title>
+    <title>Majegames.com - Board Game Universe</title>
+    <!-- Importing Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Importing Tone.js for retro music -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        /* --- GENERAL STYLES & SETUP --- */
+        :root {
+            --modern-bg: #111827;
+            --modern-card-bg: #1f2937;
+            --modern-text: #d1d5db;
+            --modern-header: #f9fafb;
+            --modern-accent: #3b82f6;
+            --modern-border: #374151;
+        }
 
         body {
+            margin: 0;
+            background-color: #000;
+            transition: background-color 0.5s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- SPLASH PAGE STYLES --- */
+        #splash-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+        #splash-page h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+            margin-bottom: 2rem;
+        }
+        .splash-button {
+            padding: 1rem 2rem;
+            margin: 0 1rem;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .splash-button:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* --- THEME TOGGLE SWITCH --- */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 50px;
+            padding: 5px;
+        }
+        .theme-toggle span {
+            color: white;
+            padding: 0 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--modern-accent);
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- RETRO SITE STYLES --- */
+        #retro-site {
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             background-color: #000022;
-            color: #00ff00; /* Neon Green */
+            color: #00ff00;
             font-family: 'VT323', monospace;
             font-size: 18px;
             text-align: center;
         }
-
-        .container {
+        .retro-container {
             width: 800px;
             margin: 20px auto;
             border: 5px outset #7d7d7d;
             background-color: #0a0a2a;
             box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
         }
-
-        /* Header with animated gradient text */
-        .header h1 {
+        .retro-header h1 {
             font-family: 'Arial Black', sans-serif;
             font-size: 52px;
-            font-weight: bold;
-            text-transform: uppercase;
             background: linear-gradient(45deg, #ff00ff, #ffdd00, #00ffff, #ff00ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -38,164 +151,530 @@
             text-shadow: 3px 3px 5px #000;
             padding: 10px;
         }
-
         @keyframes gradient-animation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        /* Navigation bar with beveled buttons */
-        .navbar {
+        .retro-navbar {
             background-color: #333;
             padding: 10px;
             border-top: 3px inset #555;
             border-bottom: 3px inset #555;
         }
-
-        .nav-button {
+        .retro-nav-button {
             display: inline-block;
             padding: 8px 20px;
             margin: 0 10px;
             background-color: #444;
             border: 3px outset #666;
-            color: #ffff00; /* Yellow text */
+            color: #ffff00;
             text-decoration: none;
             font-weight: bold;
             box-shadow: 2px 2px 5px #000;
             cursor: pointer;
         }
-
-        .nav-button:active {
-            border-style: inset;
-        }
-
-        /* Main content area */
-        .content {
-            padding: 20px;
-            text-align: left;
-        }
-        
-        .content h2 {
-            color: #ff00ff; /* Magenta */
-            font-size: 28px;
-            text-align: center;
-            text-decoration: underline;
-        }
-
-        .game-section {
+        .retro-nav-button:active { border-style: inset; }
+        .retro-content { padding: 20px; text-align: left; }
+        .retro-content h2 { color: #ff00ff; font-size: 28px; text-align: center; text-decoration: underline; }
+        .retro-game-section {
             display: flex;
             align-items: center;
             margin-bottom: 30px;
             padding: 15px;
-            border: 2px dashed #00ffff; /* Cyan */
+            border: 2px dashed #00ffff;
             background-color: rgba(0, 0, 0, 0.2);
         }
-
-        .game-section img {
-            width: 200px;
-            height: 200px;
-            margin-right: 20px;
-            border: 4px ridge #c0c0c0;
-        }
+        .retro-game-section img { width: 200px; height: 150px; object-fit: cover; margin-right: 20px; border: 4px ridge #c0c0c0; }
+        .retro-game-description h3 { color: #ffff00; font-size: 24px; margin-top: 0; }
+        marquee { font-size: 20px; color: #00ffff; padding: 10px 0; }
+        .retro-footer { padding: 15px; border-top: 5px outset #7d7d7d; background-color: #111; }
+        .visitor-counter { display: inline-block; background-color: #000; border: 2px solid #fff; padding: 5px 10px; color: #fff; font-family: 'Courier New', Courier, monospace; letter-spacing: 3px; }
+        #music-toggle { cursor: pointer; font-size: 24px; }
+        .guestbook-form { margin-top: 20px; }
+        .guestbook-form input, .guestbook-form textarea { width: 100%; background: #333; border: 1px solid #00ff00; color: #00ff00; padding: 5px; margin-bottom: 10px; font-family: 'VT323', monospace; }
+        .guestbook-entry { border-bottom: 1px dashed #00ffff; padding-bottom: 10px; margin-bottom: 10px; }
+        .guestbook-entry strong { color: #ffff00; }
+        .guestbook-entry small { color: #aaa; }
         
-        .game-description {
-            flex: 1;
+        /* --- MODERN SITE STYLES --- */
+        #modern-site {
+            background-color: var(--modern-bg);
+            color: var(--modern-text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
         }
-
-        .game-description h3 {
-            color: #ffff00; /* Yellow */
-            font-size: 24px;
-            margin-top: 0;
+        .modern-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-
-        /* Classic marquee tag */
-        marquee {
-            font-size: 20px;
-            color: #00ffff;
-            padding: 10px 0;
+        .modern-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--modern-border);
         }
-
-        /* Footer styling */
-        .footer {
-            padding: 15px;
-            border-top: 5px outset #7d7d7d;
-            background-color: #111;
+        .modern-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--modern-header);
+            text-decoration: none;
         }
-
-        .footer p {
-            margin: 5px 0;
+        .modern-navbar a {
+            color: var(--modern-text);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: bold;
+            transition: color 0.3s;
         }
-
-        .visitor-counter {
-            display: inline-block;
-            background-color: #000;
-            border: 2px solid #fff;
-            padding: 5px 10px;
+        .modern-navbar a:hover { color: var(--modern-accent); }
+        .modern-content { padding: 4rem 0; }
+        .modern-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: var(--modern-header);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .modern-game-card {
+            background-color: var(--modern-card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--modern-border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .modern-game-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .modern-game-card img { width: 100%; height: 200px; object-fit: cover; }
+        .modern-game-description { padding: 1.5rem; }
+        .modern-game-description h3 { font-family: 'Orbitron', sans-serif; margin-top: 0; color: var(--modern-header); }
+        .featured-game-rotator .modern-game-card { display: none; }
+        .featured-game-rotator .modern-game-card.active { display: block; }
+        .modern-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--modern-border);
+            color: #6b7280;
+        }
+        .social-links a { margin: 0 1rem; }
+        .social-links svg { width: 24px; height: 24px; fill: #6b7280; transition: fill 0.3s; }
+        .social-links a:hover svg { fill: var(--modern-accent); }
+        .modern-guestbook-form input, .modern-guestbook-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 4px;
+            color: var(--modern-text);
+        }
+        .modern-guestbook-form button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--modern-accent);
+            border: none;
+            border-radius: 4px;
             color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            letter-spacing: 3px;
+            font-weight: bold;
+            cursor: pointer;
         }
+        .modern-guestbook-entry {
+            background-color: var(--modern-card-bg);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .modern-guestbook-entry strong { color: var(--modern-header); }
+        .modern-guestbook-entry small { color: #6b7280; }
+
+        /* --- CUSTOM CURSORS --- */
+        [data-cursor="runeforged"]:hover { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;">%E2%9C%A8</svg>'), auto; }
+        [data-cursor="harbor"]:hover { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;">%E2%9A%93</svg>'), auto; }
+        [data-cursor="spaceinc"]:hover { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;">%F0%9F%9A%80</svg>'), auto; }
+        [data-cursor="lineage"]:hover { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;">%E2%8F%B3</svg>'), auto; }
+        [data-cursor="tbd"]:hover { cursor: help; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header Section -->
-        <div class="header">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2g3b2Z0eXQ5czFzcnp1N3I0ZTN0a2J1eG14aG15c2lqY3N5Z3E5MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l2SpVv1G22Zp2iF2g/giphy.gif" alt="Spinning CD" width="50">
-            <h1>Majegames.com</h1>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2g3b2Z0eXQ5czFzcnp1N3I0ZTN0a2J1eG14aG15c2lqY3N5Z3E5MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l2SpVv1G22Zp2iF2g/giphy.gif" alt="Spinning CD" width="50" style="transform: scaleX(-1);">
-        </div>
-
-        <!-- Navigation Bar -->
-        <div class="navbar">
-            <a href="#" class="nav-button">HOME</a>
-            <a href="#" class="nav-button">GAMES</a>
-            <a href="#" class="nav-button">ABOUT</a>
-            <a href="#" class="nav-button">CONTACT</a>
-        </div>
-
-        <!-- Scrolling Text -->
-        <marquee behavior="scroll" direction="left" scrollamount="6">
-            *** WELCOME 2 THE FUTURE OF BOARD GAMING! *** OUR NEW GAMES ARE HERE! *** CHECK THEM OUT BELOW! ***
-        </marquee>
-
-        <!-- Main Content -->
-        <div class="content">
-            <h2>!! OUR FEATURED GAMES !!</h2>
-
-            <!-- Game: Runeforged -->
-            <div class="game-section">
-                <img src="https://placehold.co/200x200/4a044e/ffffff?text=Runeforged" alt="Runeforged Game Box">
-                <div class="game-description">
-                    <h3>Runeforged</h3>
-                    <p>
-                        Enter a realm of ancient magic and powerful runes! In Runeforged, you are a mystical artisan competing to craft the most legendary artifacts. Gather enchanted materials, decipher old incantations, and forge your destiny. Will you become the master Runesmith?
-                    </p>
-                </div>
-            </div>
-
-            <!-- Game: Harbor -->
-            <div class="game-section">
-                <img src="https://placehold.co/200x200/014f86/ffffff?text=Harbor" alt="Harbor Game Box">
-                <div class="game-description">
-                    <h3>Harbor</h3>
-                    <p>
-                        The golden age of sail is upon you! As a bold merchant in a bustling port, you must outwit your rivals. Build your fleet, trade exotic goods, and invest in the city's growth to control the most prosperous Harbor. Shrewd strategy is your key to victory on the high seas!
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer Section -->
-        <div class="footer">
-            <p>Copyright © 1999-2002 Majegames.com. All rights reserved.</p>
-            <p>You are visitor number: <span class="visitor-counter">001337</span></p>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb212OXM1bTVxN3l1c3ltd2g4eW53a25yYjR4d25oN2U0Z29tc2x2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/13FrpeVH09gWdi/giphy.gif" alt="Under Construction" height="50">
-            <p>This site is best viewed in Netscape Navigator 4.0 or Internet Explorer 5.0 at 800x600 resolution.</p>
+    <!-- SECTION: Splash Page -->
+    <div id="splash-page">
+        <h1>MAJEGAMES</h1>
+        <div>
+            <button class="splash-button" id="enter-retro">Enter Vintage Site</button>
+            <button class="splash-button" id="enter-modern">Enter Modern Site</button>
         </div>
     </div>
 
+    <!-- SECTION: Theme Toggle Switch -->
+    <div id="theme-toggle-container" class="hidden">
+        <div class="theme-toggle">
+            <span>VINTAGE</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span class="slider"></span>
+            </label>
+            <span>MODERN</span>
+        </div>
+    </div>
+    
+    <!-- SECTION: Retro Website -->
+    <div id="retro-site" class="hidden">
+        <div class="retro-container">
+            <!-- Retro Header -->
+            <div class="retro-header">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2g3b2Z0eXQ5czFzcnp1N3I0ZTN0a2J1eG14aG15c2lqY3N5Z3E5MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l2SpVv1G22Zp2iF2g/giphy.gif" alt="Spinning CD" width="50">
+                <h1>Majegames.com</h1>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2g3b2Z0eXQ5czFzcnp1N3I0ZTN0a2J1eG14aG15c2lqY3N5Z3E5MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l2SpVv1G22Zp2iF2g/giphy.gif" alt="Spinning CD" width="50" style="transform: scaleX(-1);">
+                <p>Music: <span id="music-toggle">[ PLAY ]</span></p>
+            </div>
+
+            <!-- Retro Navigation -->
+            <div class="retro-navbar">
+                <a href="#retro-home" class="retro-nav-button">HOME</a>
+                <a href="#retro-games" class="retro-nav-button">GAMES</a>
+                <a href="#retro-about" class="retro-nav-button">ABOUT</a>
+                <a href="mailto:hellomajegames@gmail.com" class="retro-nav-button">EMAIL ME</a>
+            </div>
+
+            <marquee behavior="scroll" direction="left" scrollamount="6">
+                *** WELCOME 2 THE FUTURE OF BOARD GAMING! *** OUR NEW GAMES ARE HERE! *** CHECK THEM OUT BELOW! ***
+            </marquee>
+
+            <!-- Retro Main Content -->
+            <div class="retro-content">
+                <div id="retro-home">
+                    <h2>!! OUR FEATURED GAMES !!</h2>
+                    <!-- Game sections will be populated here by JS -->
+                </div>
+                <div id="retro-games">
+                    <!-- Placeholder for all games page if needed -->
+                </div>
+                <div id="retro-about">
+                    <h2>!! ABOUT US !!</h2>
+                    <p>MAJE Games is a new force in the board game universe! We are dedicated to creating immersive, strategic, and beautiful games that bring people together. This page is under construction, more to come soon!</p>
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb212OXM1bTVxN3l1c3ltd2g4eW53a25yYjR4d25oN2U0Z29tc2x2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/13FrpeVH09gWdi/giphy.gif" alt="Under Construction" height="50">
+                </div>
+                <div id="retro-guestbook">
+                    <h2>!! GUEST BOOK !!</h2>
+                    <p>Leave a message for us! (Note: Messages are saved on your computer only)</p>
+                    <form class="guestbook-form" id="retro-guestbook-form">
+                        <input type="text" id="retro-guestbook-name" placeholder="Your Name" required>
+                        <textarea id="retro-guestbook-message" rows="3" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="retro-nav-button">Sign Guestbook</button>
+                    </form>
+                    <div id="retro-guestbook-entries" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Retro Footer -->
+            <div class="retro-footer">
+                <p>Copyright © 1999-2025 Majegames.com. All rights reserved.</p>
+                <p>You are visitor number: <span class="visitor-counter" id="visitor-counter-retro">0</span></p>
+                <p>This site is best viewed in Netscape Navigator 4.0 or Internet Explorer 5.0 at 800x600 resolution.</p>
+                <p><a href="#sitemap" style="color: #ffff00;">Sitemap</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION: Modern Website -->
+    <div id="modern-site" class="hidden">
+        <div class="modern-container">
+            <!-- Modern Header -->
+            <header class="modern-header">
+                <a href="#" class="modern-logo">MAJEGAMES</a>
+                <nav class="modern-navbar">
+                    <a href="#modern-home">Home</a>
+                    <a href="#modern-games">Games</a>
+                    <a href="#modern-blog">Blog</a>
+                    <a href="#modern-about">About</a>
+                    <a href="mailto:hellomajegames@gmail.com">Email Me</a>
+                </nav>
+            </header>
+
+            <!-- Modern Main Content -->
+            <main class="modern-content">
+                <section id="modern-home">
+                    <h2>Featured Game</h2>
+                    <div class="featured-game-rotator">
+                        <!-- Rotator content will be populated by JS -->
+                    </div>
+                </section>
+
+                <section id="modern-games" style="margin-top: 5rem;">
+                    <h2>Our Games</h2>
+                    <div class="game-grid">
+                        <!-- All games will be populated here by JS -->
+                    </div>
+                </section>
+
+                <section id="modern-blog" style="margin-top: 5rem;">
+                    <h2>Content & Blog</h2>
+                    <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem;">Updates from the MAJE Games team. Design diaries, production updates, and more!</p>
+                    <!-- Blog posts would go here -->
+                    <div class="modern-game-card">
+                        <div class="modern-game-description">
+                            <h3>Welcome to the New Website!</h3>
+                            <p>We're thrilled to launch our new web presence. Here you can find all the information about our current and upcoming projects. Stay tuned for more updates as we get closer to launching our first games!</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="modern-about" style="margin-top: 5rem;">
+                    <h2>About Us</h2>
+                    <p style="text-align: center; max-width: 700px; margin: 0 auto;">MAJE Games is a new force in the board game universe! We are dedicated to creating immersive, strategic, and beautiful games that bring people together. This page is a work in progress, and we're excited to share more about our team and vision soon.</p>
+                </section>
+
+                <section id="modern-guestbook" style="margin-top: 5rem;">
+                    <h2>Guest Book</h2>
+                    <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem;">Leave a message and let us know what you think! (Note: Messages are saved on your computer only and are not visible to other visitors).</p>
+                    <form class="modern-guestbook-form" id="modern-guestbook-form" style="max-width: 700px; margin: 0 auto;">
+                        <input type="text" id="modern-guestbook-name" placeholder="Your Name" required>
+                        <textarea id="modern-guestbook-message" rows="4" placeholder="Your Message" required></textarea>
+                        <button type="submit">Sign Guestbook</button>
+                    </form>
+                    <div id="modern-guestbook-entries" style="margin-top: 2rem; max-width: 700px; margin: 2rem auto 0;"></div>
+                </section>
+
+            </main>
+
+            <!-- Modern Footer -->
+            <footer class="modern-footer">
+                <div class="social-links">
+                    <a href="#" title="Twitter/X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.058 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.44-1.441-1.44z"/></svg></a>
+                    <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
+                </div>
+                <p>&copy; 2025 MAJE Games. All Rights Reserved.</p>
+                <p>Visitor #<span id="visitor-counter-modern">0</span></p>
+                <p><a href="#sitemap" style="color: #6b7280;">Sitemap</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- SECTION: Game Data ---
+            const games = [
+                {
+                    id: 'runeforged',
+                    name: 'Runeforged',
+                    img: 'https://placehold.co/400x300/4a044e/ffffff?text=Runeforged',
+                    description: 'Enter a cooperative, fantasy deck- and dice-building game for 1-4 players set in the elemental wastelands of Shadowvale. Lead a team of three unique Runecasters to battle evolving enemies, complete scenario objectives, and survive the world’s chaotic magic surge. Each turn blends tactical card play, custom dice rolls, and teamwork as you upgrade your deck, empower your dice, and adapt to shifting threats. Victory comes from mastering your elements, countering enemy strengths, and restoring balance before the wild magic consumes everything.'
+                },
+                {
+                    id: 'harbor',
+                    name: 'Harbor',
+                    img: 'https://placehold.co/400x300/014f86/ffffff?text=Harbor',
+                    description: 'In this tile-stacking game for 2-4 players, you\'ll place tiles filled with fish, boats, and open water, building upward and outward across your seascape. Score points by fishing rare species, forming sets, and navigating where to place your boats for maximum value. With every layer revealing new tactical depth, the ocean is yours to master one tile at a time.'
+                },
+                {
+                    id: 'spaceinc',
+                    name: 'Space Inc.',
+                    img: 'https://placehold.co/400x300/9d174d/ffffff?text=Space+Inc.',
+                    description: 'Lead a rival space corporation in a high-stakes race for interstellar dominance. Build advanced ships, hire skilled crews, and chart efficient trade and exploration routes across a dynamic orbital map. Every round brings shifting events, planetary movement, and tough choices as you compete to complete missions and secure valuable resources. Only the most strategic CEO will claim victory and leave their mark on the final frontier.'
+                },
+                {
+                    id: 'lineage',
+                    name: 'Lineage',
+                    img: 'https://placehold.co/400x300/581c87/ffffff?text=Lineage',
+                    description: 'Dive into a generational strategy game where players guide their civilization through a series of Ages, making meaningful choices that echo into the future. Draft actions, build shared infrastructure, and pass down legacy traits that define your lineage’s identity while resources and population reset each turn. With evolving buildings, communal growth, and powerful trait combos, every game of Lineage tells a new multi-generational story.'
+                },
+                {
+                    id: 'tbd-sail',
+                    name: 'TBD Sail Game',
+                    img: 'https://placehold.co/400x300/065f46/ffffff?text=Sail+Game',
+                    description: 'Chart your course on the high seas in this upcoming game of naval adventure and exploration. More details coming soon!'
+                },
+                {
+                    id: 'tbd-forge',
+                    name: 'TBD Forge Game',
+                    img: 'https://placehold.co/400x300/7f1d1d/ffffff?text=Forge+Game',
+                    description: 'Fire up the forge and craft your destiny in this game of masterful creation and industry. More details coming soon!'
+                },
+                {
+                    id: 'tbd-4x',
+                    name: 'TBD 4X Game',
+                    img: 'https://placehold.co/400x300/831843/ffffff?text=4X+Game',
+                    description: 'Explore, expand, exploit, and exterminate in our upcoming epic 4X strategy game. More details coming soon!'
+                }
+            ];
+
+            // --- SECTION: Populate Game Content ---
+            const retroGamesContainer = document.querySelector('#retro-home');
+            const modernGamesGrid = document.querySelector('.game-grid');
+            const featuredRotator = document.querySelector('.featured-game-rotator');
+
+            retroGamesContainer.innerHTML = '<h2>!! OUR FEATURED GAMES !!</h2>'; // Reset container
+
+            games.forEach((game, index) => {
+                const cursorType = game.id.startsWith('tbd') ? 'tbd' : game.id;
+
+                // Create retro card
+                const retroCard = document.createElement('div');
+                retroCard.className = 'retro-game-section';
+                retroCard.setAttribute('data-cursor', cursorType);
+                retroCard.innerHTML = `
+                    <img src="${game.img}" alt="${game.name} Game Box">
+                    <div class="retro-game-description">
+                        <h3>${game.name}</h3>
+                        <p>${game.description}</p>
+                    </div>
+                `;
+                retroGamesContainer.appendChild(retroCard);
+
+                // Create modern card
+                const modernCard = document.createElement('div');
+                modernCard.className = 'modern-game-card';
+                modernCard.setAttribute('data-cursor', cursorType);
+                modernCard.innerHTML = `
+                    <img src="${game.img}" alt="${game.name} Game Box">
+                    <div class="modern-game-description">
+                        <h3>${game.name}</h3>
+                        <p>${game.description}</p>
+                    </div>
+                `;
+                modernGamesGrid.appendChild(modernCard);
+
+                // Create featured card for rotator
+                if (index < 3) { // Feature first 3 games
+                    const featuredCard = modernCard.cloneNode(true);
+                    if (index === 0) featuredCard.classList.add('active');
+                    featuredRotator.appendChild(featuredCard);
+                }
+            });
+
+            // --- SECTION: Splash Page & Theme Toggle Logic ---
+            const splashPage = document.getElementById('splash-page');
+            const retroSite = document.getElementById('retro-site');
+            const modernSite = document.getElementById('modern-site');
+            const toggleContainer = document.getElementById('theme-toggle-container');
+            const toggleCheckbox = document.getElementById('theme-toggle-checkbox');
+
+            function showSite(theme) {
+                splashPage.classList.add('hidden');
+                toggleContainer.classList.remove('hidden');
+                if (theme === 'retro') {
+                    retroSite.classList.remove('hidden');
+                    modernSite.classList.add('hidden');
+                    toggleCheckbox.checked = false;
+                } else {
+                    retroSite.classList.add('hidden');
+                    modernSite.classList.remove('hidden');
+                    toggleCheckbox.checked = true;
+                }
+            }
+
+            document.getElementById('enter-retro').addEventListener('click', () => showSite('retro'));
+            document.getElementById('enter-modern').addEventListener('click', () => showSite('modern'));
+
+            toggleCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    showSite('modern');
+                } else {
+                    showSite('retro');
+                }
+            });
+
+            // --- SECTION: Visitor Counter (Simulation) ---
+            let visitCount = localStorage.getItem('majeGamesVisitCount') || 0;
+            visitCount++;
+            localStorage.setItem('majeGamesVisitCount', visitCount);
+            document.getElementById('visitor-counter-retro').textContent = String(visitCount).padStart(6, '0');
+            document.getElementById('visitor-counter-modern').textContent = visitCount;
+
+            // --- SECTION: Featured Game Rotator ---
+            let currentFeatured = 0;
+            const featuredGames = featuredRotator.querySelectorAll('.modern-game-card');
+            
+            function rotateFeaturedGame() {
+                featuredGames[currentFeatured].classList.remove('active');
+                currentFeatured = (currentFeatured + 1) % featuredGames.length;
+                featuredGames[currentFeatured].classList.add('active');
+            }
+            if (featuredGames.length > 0) {
+                setInterval(rotateFeaturedGame, 5000); // Rotate every 5 seconds
+            }
+
+            // --- SECTION: Guest Book (Simulation) ---
+            function setupGuestbook(formId, nameId, messageId, entriesId, style) {
+                const form = document.getElementById(formId);
+                const nameInput = document.getElementById(nameId);
+                const messageInput = document.getElementById(messageId);
+                const entriesContainer = document.getElementById(entriesId);
+                const storageKey = `majeGamesGuestbook-${style}`;
+
+                let messages = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+                function renderMessages() {
+                    entriesContainer.innerHTML = '';
+                    messages.forEach(msg => {
+                        const entry = document.createElement('div');
+                        entry.className = style === 'retro' ? 'guestbook-entry' : 'modern-guestbook-entry';
+                        const date = new Date(msg.timestamp).toLocaleString();
+                        entry.innerHTML = `
+                            <p><strong>${msg.name}</strong> wrote on <small>${date}</small>:</p>
+                            <p>${msg.message}</p>
+                        `;
+                        entriesContainer.prepend(entry);
+                    });
+                }
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const newMessage = {
+                        name: nameInput.value,
+                        message: messageInput.value,
+                        timestamp: new Date().toISOString()
+                    };
+                    messages.push(newMessage);
+                    localStorage.setItem(storageKey, JSON.stringify(messages));
+                    renderMessages();
+                    form.reset();
+                });
+
+                renderMessages();
+            }
+
+            setupGuestbook('retro-guestbook-form', 'retro-guestbook-name', 'retro-guestbook-message', 'retro-guestbook-entries', 'retro');
+            setupGuestbook('modern-guestbook-form', 'modern-guestbook-name', 'modern-guestbook-message', 'modern-guestbook-entries', 'modern');
+
+            // --- SECTION: Retro MIDI Music (Web Audio API) ---
+            const musicToggle = document.getElementById('music-toggle');
+            let musicPlaying = false;
+            const synth = new Tone.Synth({
+                oscillator: { type: 'square' },
+                envelope: { attack: 0.01, decay: 0.2, sustain: 0.2, release: 0.1 }
+            }).toDestination();
+
+            const pattern = new Tone.Sequence((time, note) => {
+                synth.triggerAttackRelease(note, '8n', time);
+            }, ['C4', 'E4', 'G4', 'C5', 'G4', 'E4'], '4n');
+            
+            Tone.Transport.bpm.value = 120;
+
+            musicToggle.addEventListener('click', async () => {
+                if (!musicPlaying) {
+                    await Tone.start();
+                    Tone.Transport.start();
+                    pattern.start(0);
+                    musicToggle.textContent = '[ STOP ]';
+                    musicPlaying = true;
+                } else {
+                    Tone.Transport.stop();
+                    pattern.stop();
+                    musicToggle.textContent = '[ PLAY ]';
+                    musicPlaying = false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
